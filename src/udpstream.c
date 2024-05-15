@@ -251,7 +251,7 @@ void *run_ntttcp_receiver_udp4_stream(struct ntttcp_stream_server *ss)
 		if (nbytes > 0) {
 			__sync_fetch_and_add(&(ss->total_bytes_transferred), nbytes);
 		} else {
-			ASPRINTF(&log, "error: cannot read data from socket: %d, errno: %d", sockfd, errno);
+			ASPRINTF(&log, "error: cannot read data from socket: %d, errno: %d | current endpoint state: %d", sockfd, errno, ss->endpoint->state);
 			PRINT_INFO_FREE(log);
 		}
 	}
