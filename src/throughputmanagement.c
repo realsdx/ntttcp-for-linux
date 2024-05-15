@@ -244,7 +244,7 @@ END:
 		 * then this indicates that in the sender side, test is being interrupted.
 		 * hence, tell receiver about this.
 		 */
-		printf("Actual time: %f | negotiated time: %d", actual_test_time, tep->negotiated_test_cycle_time);
+		printf("Actual time: %f | negotiated time: %d seconds\n", actual_test_time, tep->negotiated_test_cycle_time);
 		fflush(stdout);
 		if (actual_test_time < tep->negotiated_test_cycle_time) {
 			tell_receiver_test_exit(tep->synch_socket);
