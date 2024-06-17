@@ -244,19 +244,18 @@ void *run_ntttcp_receiver_udp4_stream(struct ntttcp_stream_server *ss)
 	}
 
 	while (1) {
-		PRINT_INFO("Test state before rcv_from: ",ss->endpoint->state)
 		if (ss->endpoint->receiver_exit_after_done && ss->endpoint->state == TEST_FINISHED)
 			break;
 
 		nbytes = recvfrom(sockfd, buffer, ss->recv_buf_size, 0, (struct sockaddr *)&remote_addr, &addrlen);
-
-		PRINT_INFO("Test state after rcv_from: ",ss->endpoint->state)
-		
 		if (nbytes > 0) {
 			__sync_fetch_and_add(&(ss->total_bytes_transferred), nbytes);
 		} else {
 			ASPRINTF(&log, "error: cannot read data from socket: %d, errno: %d | current endpoint state: %d, exit_after_done: %d", sockfd, errno, ss->endpoint->state, ss->endpoint->receiver_exit_after_done);
 			PRINT_INFO_FREE(log);
+			if (errno == EAGAIN) {
+				break;
+			}
 		}
 	}
 
