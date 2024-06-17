@@ -244,16 +244,13 @@ void *run_ntttcp_receiver_udp4_stream(struct ntttcp_stream_server *ss)
 	}
 
 	while (1) {
-		ASPRINTF(&log, "Test state before rcv_from: %d\n",  ss->endpoint->state);
-		PRINT_INFO_FREE(log);
-
+		printf("Test state before rcv_from: %d",  ss->endpoint->state);
 		if (ss->endpoint->receiver_exit_after_done && ss->endpoint->state == TEST_FINISHED)
 			break;
 
 		nbytes = recvfrom(sockfd, buffer, ss->recv_buf_size, 0, (struct sockaddr *)&remote_addr, &addrlen);
 
-		ASPRINTF(&log, "Test state after rcv_from: %d\n",  ss->endpoint->state);
-		PRINT_INFO_FREE(log);
+		printf("Test state after rcv_from: %d", ss->endpoint->state);
  
 		if (nbytes > 0) {
 			__sync_fetch_and_add(&(ss->total_bytes_transferred), nbytes);
